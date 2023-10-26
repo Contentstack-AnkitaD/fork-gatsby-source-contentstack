@@ -71,6 +71,8 @@ exports.fetchData = async (
       fetchSyncData
     );
     syncData.data = _syncData.data;
+    console.log('---syncData----', syncData.data);
+
     const contentstackData = { syncData: syncData.data };
 
     activity.end();
@@ -207,6 +209,7 @@ const getPagedData = async (
     aggregatedResponse = aggregatedResponse.concat(response[responseKey]);
   }
   if (skip + limit <= response.count) {
+    console.log('response.count', response.count, 'skip', skip, 'limit', limit);
     return getPagedData(
       url,
       config,

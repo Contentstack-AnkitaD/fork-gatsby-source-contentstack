@@ -15,6 +15,8 @@ class FetchDefaultEntries extends FetchEntries {
         const assetTokenKey = `${typePrefix.toLowerCase()}-sync-token-asset-${configOptions.api_key}`;
         const [syncEntryToken, syncAssetToken] = await Promise.all([cache.get(entryTokenKey), cache.get(assetTokenKey)])
 
+        console.log('configOptions.limit', configOptions).limit;
+
         const syncEntryParams = syncEntryToken ? { sync_token: syncEntryToken } : { init: true };
         const syncAssetParams = syncAssetToken ? { sync_token: syncAssetToken } : { init: true };
 
