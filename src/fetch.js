@@ -72,6 +72,7 @@ exports.fetchData = async (
       fetchSyncData
     );
     syncData.data = _syncData.data;
+    console.log('---syncData----', syncData);
     const contentstackData = { syncData: syncData.data };
 
     activity.end();
@@ -197,7 +198,10 @@ const getPagedData = async (
   aggregatedResponse = null
 ) => {
   query.skip = skip;
-  query.limit = limit;
+  //if limit is greater than 100, it will throw ann error that limit cannot exceed 100.
+  query.limit =
+    limit > 100 ? (console.error('Limit cannot exceed 100.'), 100) : limit;
+  console.log('query', query);
   query.include_global_field_schema = true;
   const response = await fetchCsData(url, config, query);
   if (!aggregatedResponse) {
@@ -205,6 +209,7 @@ const getPagedData = async (
   } else {
     aggregatedResponse = aggregatedResponse.concat(response[responseKey]);
   }
+  console.log('response.count', response.count, 'skip', skip, 'limit', limit);
   if (skip + limit <= response.count) {
     return getPagedData(
       url,

@@ -15,6 +15,8 @@ class FetchDefaultEntries extends FetchEntries {
         const assetTokenKey = `${typePrefix.toLowerCase()}-sync-token-asset-${configOptions.api_key}`;
         const [syncEntryToken, syncAssetToken] = await Promise.all([cache.get(entryTokenKey), cache.get(assetTokenKey)])
 
+        console.log('configOptions.limit', configOptions).limit;
+
         const syncEntryParams = syncEntryToken ? { sync_token: syncEntryToken } : { init: true };
         const syncAssetParams = syncAssetToken ? { sync_token: syncAssetToken } : { init: true };
 
@@ -158,7 +160,7 @@ class FetchSpecifiedLocalesAndContentTypesEntries extends FetchEntries {
       const typePrefix = configOptions.type_prefix || 'Contentstack';
       const contentTypes = await cache.get(typePrefix);
       const locales = configOptions.locales;
-  
+
       for (let i = 0; i < contentTypes.length; i++) {
         const contentType = contentTypes[i].uid;
         for (let j = 0; j < locales.length; j++) {
