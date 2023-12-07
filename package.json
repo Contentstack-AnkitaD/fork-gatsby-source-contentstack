@@ -4,8 +4,8 @@
   "description": "Gatsby source plugin for building websites using Contentstack as a data source",
   "scripts": {
     "prepublish": "npm run build",
-    "build": "babel src --out-dir .",
-    "watch": "babel -w src --out-dir .",
+    "build": "babel src --out-dir ./build",
+    "watch": "babel -w src --out-dir ./build",
     "test": "jest —-colors",
     "test:watch": "jest —-colors --watch"
   },
