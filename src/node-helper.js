@@ -45,27 +45,51 @@ const validateContentstackAccess = async pluginOptions => {
     ? pluginOptions.cdn
     : 'https://cdn.contentstack.io/v3';
 
-  await fetch(`${host}/content_types?include_count=false`, {
-    headers: {
-      api_key: `${pluginOptions.api_key}`,
-      access_token: `${pluginOptions.delivery_token}`,
-      branch: pluginOptions?.branch,
-      ...getCustomHeaders(
-        pluginOptions?.enableEarlyAccessKey,
-        pluginOptions?.enableEarlyAccessValue
-      ),
-    },
-  })
-    .then(res => res.ok)
-    .then(ok => {
-      if (!ok)
-        throw new Error(
-          `Cannot access Contentstack with api_key=${pluginOptions.api_key} & delivery_token=${pluginOptions.delivery_token}.`
-        );
-    });
+  const headers = {
+    api_key: `${pluginOptions.api_key}`,
+    access_token: `${pluginOptions.delivery_token}`,
+    branch: pluginOptions?.branch,
+    ...getCustomHeaders(
+      pluginOptions?.enableEarlyAccessKey,
+      pluginOptions?.enableEarlyAccessValue
+    ),
+  };
+
+  const fetchContentTypes = fetch(`${host}/content_types?include_count=false`, {
+    headers,
+  });
+
+  const fetchTaxonomies = fetch(`${host}/taxonomies?include_count=false`, {
+    headers,
+  });
+
+  try {
+    const [contentTypesResponse, taxonomiesResponse] = await Promise.all([
+      fetchContentTypes,
+      fetchTaxonomies,
+    ]);
+
+    console.log("--- Taxonomies fetched", taxonomiesResponse);
+    
+
+    if (!contentTypesResponse.ok) {
+      throw new Error(
+        `Cannot access Contentstack content types with api_key=${pluginOptions.api_key} & delivery_token=${pluginOptions.delivery_token}.`
+      );
+    }
+
+    if (!taxonomiesResponse.ok) {
+      throw new Error(
+        `Cannot access Contentstack taxonomies with api_key=${pluginOptions.api_key} & delivery_token=${pluginOptions.delivery_token}.`
+      );
+    }
+  } catch (error) {
+    throw new Error(`Error validating Contentstack access: ${error.message}`);
+  }
 
   return undefined;
 };
+
 
 exports.deleteContentstackNodes = deleteContentstackNodes;
 exports.validateContentstackAccess = validateContentstackAccess;
