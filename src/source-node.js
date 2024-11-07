@@ -1,4 +1,5 @@
 'use strict';
+const fs = require('fs');
 
 const { checkIfUnsupportedFormat, SUPPORTED_FILES_COUNT, IMAGE_REGEXP, CODES, getContentTypeOption, ASSET_NODE_UIDS } = require('./utils');
 const downloadAssets = require('./download-assets');
@@ -82,6 +83,17 @@ exports.sourceNodes = async ({ cache, actions, getNode, getNodes, createNodeId, 
   configOptions.downloadImages && await cache.set(SUPPORTED_FILES_COUNT, countOfSupportedFormatFiles);
 
   const contentTypesMap = {};
+  console.log("contentstackData", contentstackData);
+  //write this log to a file and check the output
+  const logData = `contentstackData: ${JSON.stringify(contentstackData)}\n`;
+  fs.appendFile('log.txt', logData, (err) => {
+    if (err) {
+      console.error('Error writing to file', err);
+    } else {
+      console.log('Log written to file');
+    }
+  });
+
   contentstackData.contentTypes.forEach(contentType => {
     contentType.uid = contentType.uid.replace(/-/g, '_');
     const contentTypeNode = processContentType(contentType, createNodeId, createContentDigest, typePrefix);
