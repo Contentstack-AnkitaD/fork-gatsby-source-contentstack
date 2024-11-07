@@ -85,6 +85,8 @@ exports.createSchemaCustomization = async ({ cache, actions, schema, reporter, c
     contentTypes && contentTypes.forEach(contentType => {
       const contentTypeUid = contentType.uid.replace(/-/g, '_');
       const name = `${typePrefix}_${contentTypeUid}`;
+      console.log("contentType.schema", contentType.schema);
+      
       const extendedSchema = extendSchemaWithDefaultEntryFields(contentType.schema);
       let result = buildCustomSchema(extendedSchema, [], [], [], [], [], name, typePrefix, disableMandatoryFields, jsonRteToHtml, createNodeId, undefined);
       references = references.concat(result.references);

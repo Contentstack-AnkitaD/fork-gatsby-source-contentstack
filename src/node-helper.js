@@ -71,11 +71,11 @@ const validateContentstackAccess = async pluginOptions => {
       // fetchTaxonomies,
     ]);
 
-    console.log("\n--- Contentstack Access Validation ---");
-    console.log("\n--- Headers ---", headers);
-    console.log("\n--- Host ---", host);
-    console.log("\n--- Content Types URL ---", `${host}/content_types?include_count=false`);
-    console.log("\n--- Content Types fetched", contentTypesResponse);
+    // console.log("\n--- Contentstack Access Validation ---");
+    // console.log("\n--- Headers ---", headers);
+    // console.log("\n--- Host ---", host);
+    // console.log("\n--- Content Types URL ---", `${host}/content_types?include_count=false`);
+    // console.log("\n--- Content Types fetched", contentTypesResponse);
 
     // console.log("\n--- Taxonomies fetched", taxonomiesResponse);
     
