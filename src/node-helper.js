@@ -59,14 +59,16 @@ const validateContentstackAccess = async pluginOptions => {
     headers,
   });
 
-  const fetchTaxonomies = fetch(`${host}/taxonomies?include_count=false`, {
-    headers,
-  });
+  // const fetchTaxonomies = fetch(`${host}/taxonomies?include_count=false`, {
+  //   headers,
+  // });
 
   try {
-    const [contentTypesResponse, taxonomiesResponse] = await Promise.all([
+    const [contentTypesResponse,
+      // taxonomiesResponse
+    ] = await Promise.all([
       fetchContentTypes,
-      fetchTaxonomies,
+      // fetchTaxonomies,
     ]);
 
     console.log("\n--- Contentstack Access Validation ---");
@@ -75,7 +77,7 @@ const validateContentstackAccess = async pluginOptions => {
     console.log("\n--- Content Types URL ---", `${host}/content_types?include_count=false`);
     console.log("\n--- Content Types fetched", contentTypesResponse);
 
-    console.log("\n--- Taxonomies fetched", taxonomiesResponse);
+    // console.log("\n--- Taxonomies fetched", taxonomiesResponse);
     
 
     if (!contentTypesResponse.ok) {
@@ -84,11 +86,11 @@ const validateContentstackAccess = async pluginOptions => {
       );
     }
 
-    if (!taxonomiesResponse.ok) {
-      throw new Error(
-        `Cannot access Contentstack taxonomies with api_key=${pluginOptions.api_key} & delivery_token=${pluginOptions.delivery_token}.`
-      );
-    }
+    // if (!taxonomiesResponse.ok) {
+    //   throw new Error(
+    //     `Cannot access Contentstack taxonomies with api_key=${pluginOptions.api_key} & delivery_token=${pluginOptions.delivery_token}.`
+    //   );
+    // }
   } catch (error) {
     throw new Error(`Error validating Contentstack access: ${error.message}`);
   }
